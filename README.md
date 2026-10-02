@@ -10,7 +10,7 @@ Para el controlador de flota, que hoy coordina más de 30 camiones y no siempre 
 Aún no hay código ejecutable. Esta sección se completará cuando exista una primera versión en `src/`.
 
 ## En qué estado está
-Etapa de diseño: propuesta de valor, caso de uso, maqueta y roadmap (Avance 1) y diseño preliminar de datos (Avance 2).
+  Etapa de diseño: propuesta de valor (Avance 1); caso de uso, maqueta y roadmap (Avance 2); repositorio, primer uso documentado de IA y estructura preliminar de datos (Avance 3). Aún no hay código ejecutable
 
 ## Quiénes la desarrollan
 Equipo 3: Simón Gallardo, Nicolás Rodríguez, Ikki Saito, Natalia Órdenes y Gabriel Vásquez.
