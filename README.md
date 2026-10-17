@@ -14,3 +14,5 @@ Aún no hay código ejecutable. Esta sección se completará cuando exista una p
 
 ## Quiénes la desarrollan
 Equipo 3: Simón Gallardo, Nicolás Rodríguez, Ikki Saito, Natalia Órdenes y Gabriel Vásquez.
+   ## Wireframes
+   Ver [docs/wireframes/](docs/wireframes/)
