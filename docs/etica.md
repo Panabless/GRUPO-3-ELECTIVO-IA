@@ -6,7 +6,7 @@ Analizamos el prototipo de [docs/prototipo.md](prototipo.md): sus 4 pantallas, e
 
 | | Quien ejecuta la tarea: **controlador de flota** | Quien decide o supervisa: **jefe de turno** | Quien queda excluido: **operador del camión de combustible** |
 |---|---|---|---|
-| **Deja de hacer** | Revisar camión por camión y anotar los abastecimientos en papel o en la planilla Excel. | Reconstruir lo que pasó en el turno a partir de papeles y llamadas. | Nada: no usa la aplicación. Sigue recibiendo las órdenes por radio y no tiene cómo responder dentro del sistema. |
+| **Deja de hacer** | Revisar camión por camión y anotar los abastecimientos bajo un registro sin sistema centralizado. | Reconstruir lo que pasó en el turno a partir de registros inconsistentes. | Nada: no usa la aplicación directamente. Sigue recibiendo las órdenes por radio y no tiene cómo responder dentro del sistema. |
 | **Su rol se redefine en** | Verificar si la lectura es coherente, atender los camiones «sin señal» y confirmar los cierres. | Revisar las órdenes y los cierres del turno, y las alertas que nadie atendió. | Ejecutar órdenes que otro registra por él: su llegada, su demora o un carro fuera de servicio solo quedan si el controlador los anota (`causa_demora`). |
 | **Riesgo si nadie lo asume** | Confiar en la lista sin mirar los avisos: un camión sin señal puede detenerse aunque «no aparezca crítico». | Las alertas sin atender se repiten turno a turno sin que nadie responda por ellas. | Una orden queda «en proceso» aunque nunca le llegó, y la detención se le atribuye a él sin que pueda dar su versión. |
 
@@ -18,7 +18,7 @@ Una fila por cada campo del formulario «Asignar orden» (P3). Los plazos de con
 
 | Campo del formulario | Dato guardado | Finalidad (historia) | ¿Dato personal? | Quién accede | Cuánto tiempo se conserva |
 |---|---|---|---|---|---|
-| Camión | `CAMION.id_camion` (vía `ORDEN.id_alerta`) | HU-04: saber a qué camión va la orden | No | Controlador, jefe de turno, operador asignado | Mientras exista el historial de órdenes (12 meses) |
+| Camión | `CAMION.id_camion` (vía `ORDEN.id_alerta`) | HU-04: saber a qué camión va la orden | No | Controlador, jefe de turno; operador se entera por radio | Mientras exista el historial de órdenes (12 meses) |
 | Sector de encuentro | `ORDEN.id_sector` | HU-04: indicar dónde se encuentran el camión y el carro | No | Controlador, jefe de turno, operador asignado | 12 meses |
 | Camión de combustible y operador | `ORDEN.id_carro` → `CARRO.id_operador` → `USUARIO.nombre` | HU-04: a quién le llega la orden; HU-05: quién informa el término | **Sí** (nombre del operador) | Controlador y jefe de turno; el operador ve solo sus propias órdenes | 12 meses; luego se conserva la orden sin el nombre del operador |
 
