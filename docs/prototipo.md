@@ -1,6 +1,6 @@
 # Prototipo navegable · Monitoreo de combustible de flota autónoma
 
-Enlace: **[pendiente: pegar aquí el enlace de producción de Vercel]** (accesible sin iniciar sesión; probado en ventana de incógnito)
+Enlace: **[https://grupo-3-electivo-ia-prototipo.vercel.app/]** (accesible sin iniciar sesión; probado en ventana de incógnito)
 
 Código: [`prototipo/index.html`](../prototipo/index.html). Datos de ejemplo con los nombres de [`docs/datos/estructura_datos.md`](datos/estructura_datos.md).
 
