@@ -8,6 +8,8 @@ erDiagram
     ALERTA ||--o| ORDEN : "1:1 origina"
     SECTOR ||--o{ ORDEN : "1:N recibe"
     USUARIO ||--o{ ORDEN : "1:N emite"
+    CARRO ||--o{ ORDEN : "1:N atiende"
+    USUARIO ||--o| CARRO : "1:1 opera (operador)"
 
     CAMION {
         texto id_camion PK
@@ -25,6 +27,12 @@ erDiagram
         texto correo
         lista rol
     }
+    CARRO {
+        texto id_carro PK
+        texto nombre
+        texto id_operador FK
+        lista estado
+    }
     ALERTA {
         texto id_alerta PK
         texto id_camion FK
@@ -37,16 +45,19 @@ erDiagram
         texto id_alerta FK
         texto id_sector FK
         texto id_usuario FK
+        texto id_carro FK
         fecha_hora emitida_en
         lista estado
         fecha_hora cerrada_en
+        texto causa_demora
     }
 ```
 
 Listas de valores:
 - CAMION.estado: normal, alerta, critico, sin_senal, en_proceso, abastecido
-- USUARIO.rol: controlador, supervisor
-- ORDEN.estado: emitida, en_proceso, cerrada
+- USUARIO.rol: controlador, supervisor, operador
+- ORDEN.estado: emitida, en_proceso, reasignada, cerrada
+- CARRO.estado: disponible, ocupado, fuera_de_servicio
 
 ## 2. Campos obligatorios y ejemplos
 
@@ -55,8 +66,8 @@ Listas de valores:
 ### CAMION
 | id_camion* | nombre* | nivel_combustible* | estado* |
 |---|---|---|---|
-| CAM-07 | Camión 07 | 12 | critico |
-| CAM-19 | Camión 19 | 18 | critico |
+| CAM-07 | Camión 07 | 96 | abastecido |
+| CAM-19 | Camión 19 | 14 | en_proceso |
 
 ### SECTOR
 | id_sector* | nombre* |
@@ -69,17 +80,27 @@ Listas de valores:
 |---|---|---|---|
 | USR-01 | Controlador Turno A | controlador.a@ejemplo.cl | controlador |
 | USR-02 | Supervisor Turno A | supervisor.a@ejemplo.cl | supervisor |
+| USR-03 | Operador camión de combustible A | operador.a@ejemplo.cl | operador |
+| USR-04 | Operador camión de combustible B | operador.b@ejemplo.cl | operador |
+
+### CARRO
+| id_carro* | nombre* | id_operador* | estado* |
+|---|---|---|---|
+| CAR-01 | Camión de combustible 1 | USR-03 | ocupado |
+| CAR-02 | Camión de combustible 2 | USR-04 | fuera_de_servicio |
 
 ### ALERTA
-| id_alerta* | id_camion* | nivel_detectado* | creada_en* | activa* |
+`nivel_detectado` es opcional: queda vacío cuando la alerta es porque el sensor no reporta (extensión E1).
+
+| id_alerta* | id_camion* | nivel_detectado | creada_en* | activa* |
 |---|---|---|---|---|
-| ALR-001 | CAM-07 | 12 | 2026-10-01 09:42 | sí |
-| ALR-002 | CAM-19 | 18 | 2026-10-01 09:44 | sí |
+| ALR-001 | CAM-07 | 12 | 2026-10-01 09:42 | no |
+| ALR-002 | CAM-19 | 14 | 2026-10-01 09:44 | sí |
 
 ### ORDEN
-`cerrada_en` es opcional: queda vacío hasta que se cierra el reabastecimiento.
+`cerrada_en` es opcional: queda vacío hasta que se cierra el reabastecimiento. `causa_demora` es opcional: se llena solo si la orden se reasigna porque el carro no está disponible (extensión E2).
 
-| id_orden* | id_alerta* | id_sector* | id_usuario* | emitida_en* | estado* | cerrada_en |
-|---|---|---|---|---|---|---|
-| ORD-001 | ALR-001 | SEC-B | USR-01 | 2026-10-01 09:45 | cerrada | 2026-10-01 10:05 |
-| ORD-002 | ALR-002 | SEC-A | USR-01 | 2026-10-01 09:48 | en_proceso | |
+| id_orden* | id_alerta* | id_sector* | id_usuario* | id_carro* | emitida_en* | estado* | cerrada_en | causa_demora |
+|---|---|---|---|---|---|---|---|---|
+| ORD-001 | ALR-001 | SEC-B | USR-01 | CAR-01 | 2026-10-01 09:45 | cerrada | 2026-10-01 10:05 | |
+| ORD-002 | ALR-002 | SEC-A | USR-01 | CAR-01 | 2026-10-01 09:48 | en_proceso | | |
