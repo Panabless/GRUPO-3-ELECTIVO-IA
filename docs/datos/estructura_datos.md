@@ -16,6 +16,7 @@ erDiagram
         texto nombre
         numero nivel_combustible
         lista estado
+        fecha_hora ultimo_abastecimiento
     }
     SECTOR {
         texto id_sector PK
@@ -64,10 +65,10 @@ Listas de valores:
 `*` = obligatorio (no puede quedar vacío).
 
 ### CAMION
-| id_camion* | nombre* | nivel_combustible* | estado* |
-|---|---|---|---|
-| CAM-07 | Camión 07 | 96 | abastecido |
-| CAM-19 | Camión 19 | 14 | en_proceso |
+| id_camion* | nombre* | nivel_combustible* | estado* | ultimo_abastecimiento |
+|---|---|---|---|---|
+| CAM-30 | Camión 30 | 96 | abastecido | 2026-09-30 21:10 |
+| CAM-19 | Camión 19 | 14 | en_proceso | 2026-09-30 20:30 |
 
 ### SECTOR
 | id_sector* | nombre* |
@@ -94,7 +95,7 @@ Listas de valores:
 
 | id_alerta* | id_camion* | nivel_detectado | creada_en* | activa* |
 |---|---|---|---|---|
-| ALR-001 | CAM-07 | 12 | 2026-10-01 09:42 | no |
+| ALR-001 | CAM-30 | 12 | 2026-10-01 09:42 | no |
 | ALR-002 | CAM-19 | 14 | 2026-10-01 09:44 | sí |
 
 ### ORDEN
