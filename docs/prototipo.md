@@ -60,7 +60,7 @@ La barra inferior «Revisión del prototipo» solo sirve para mostrar estos esta
 
 | Pantalla | Historia | Criterio que verifica | Simulado | Funcional |
 |---|---|---|---|---|
-| P1 · Monitor de flota | HU-01, HU-03 | Principal: camiones bajo 15 % primero, con código, nivel y estado «Crítico». Alternativo: CAM-21 «Sin señal» con aviso, no como normal. | Lecturas de los sensores (datos de ejemplo), tiempo de carga | Navegación, cifras calculadas de los datos, estados vacío / cargando / error, Reintentar |
+| P1 · Monitor de flota | HU-01, HU-03 | Principal: camiones bajo 15 % con código, nivel y estado «Crítico». Alternativo: CAM-21 «Sin señal» con aviso, no como normal (va primero en la lista; ver el cambio en [etica.md](etica.md)). | Lecturas de los sensores (datos de ejemplo), tiempo de carga | Navegación, cifras calculadas de los datos, estados vacío / cargando / error, Reintentar |
 | P2 · Detalle del camión | HU-02 | (HU-02 sin criterios en este avance) | Historial de alertas y último abastecimiento (datos de ejemplo) | Navegación, aviso para camión sin señal, botón según si ya hay orden |
 | P3 · Asignar orden | HU-04 | (sin criterios en este avance) | Envío a la base de datos y aviso al operador | Validación de campos, errores junto al campo, carros fuera de servicio bloqueados, Cancelar, error sin conexión |
 | P4 · Orden registrada y cierre | HU-04, HU-05 | (sin criterios en este avance) | Registro de la orden y del cierre (en memoria del navegador) | Confirmar cierre cambia la orden a «Cerrada», el camión a «Abastecido» y lo saca de «Requieren atención» |

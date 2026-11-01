@@ -185,7 +185,8 @@ function pantallaMonitor() {
     return;
   }
   const atencion = modo === 'vacio' ? [] : S.camiones.filter(c => c.estado === 'critico' || c.estado === 'sin_senal')
-    .sort((a, b) => a.nivel_combustible - b.nivel_combustible);
+    // Cambio por el análisis ético (B3): los camiones sin señal van primero, porque su nivel real es desconocido
+    .sort((a, b) => (a.estado === 'sin_senal' ? 0 : 1) - (b.estado === 'sin_senal' ? 0 : 1) || a.nivel_combustible - b.nivel_combustible);
   const enCurso = modo === 'vacio' ? [] : S.camiones.filter(c => c.estado === 'en_proceso');
   const criticos = atencion.filter(c => c.estado === 'critico').length;
   const sinSenal = atencion.filter(c => c.estado === 'sin_senal').length;
@@ -204,6 +205,7 @@ function pantallaMonitor() {
       <div class="cifra"><b>${enCurso.length}</b>órdenes en proceso</div>
     </div>
     <h2>Requieren atención</h2>
+    ${sinSenal ? `<p class="ayuda" style="margin-top:0">Primero los camiones sin señal: su nivel real es desconocido y deben verificarse en terreno.</p>` : ''}
     ${atencion.length ? `<ul class="lista">${atencion.map(fila).join('')}</ul>`
       : `<div class="tarjeta estado-pantalla"><b>Ningún camión requiere atención.</b><p>Todos los camiones con lectura están sobre el 15 %. Esta vista se actualiza con cada lectura.</p></div>`}
     <h2>En curso</h2>
