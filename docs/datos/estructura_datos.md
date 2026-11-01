@@ -103,4 +103,4 @@ Listas de valores:
 | id_orden* | id_alerta* | id_sector* | id_usuario* | id_carro* | emitida_en* | estado* | cerrada_en | causa_demora |
 |---|---|---|---|---|---|---|---|---|
 | ORD-001 | ALR-001 | SEC-B | USR-01 | CAR-01 | 2026-10-01 09:45 | cerrada | 2026-10-01 10:05 | |
-| ORD-002 | ALR-002 | SEC-A | USR-01 | CAR-01 | 2026-10-01 09:48 | en_proceso | | |
+| ORD-002 | ALR-002 | SEC-A | USR-01 | CAR-02 | 2026-10-01 10:08 | en_proceso | | |
