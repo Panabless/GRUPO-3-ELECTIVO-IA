@@ -22,7 +22,7 @@ Una fila por cada campo del formulario «Asignar orden» (P3). Los plazos de con
 | Sector de encuentro | `ORDEN.id_sector` | HU-04: indicar dónde se encuentran el camión y el carro | No | Controlador, jefe de turno, operador asignado | 12 meses |
 | Camión de combustible y operador | `ORDEN.id_carro` → `CARRO.id_operador` → `USUARIO.nombre` | HU-04: a quién le llega la orden; HU-05: quién informa el término | **Sí** (nombre del operador) | Controlador y jefe de turno; el operador ve solo sus propias órdenes | 12 meses; luego se conserva la orden sin el nombre del operador |
 
-Registrados sin que el controlador los escriba: `ORDEN.id_usuario` (quién emitió la orden, **dato personal**, finalidad HU-04 y E3), `ORDEN.emitida_en` y `ORDEN.cerrada_en` (HU-05).
+Registrados sin que el controlador los escriba: `ORDEN.id_usuario` (quién emitió la orden, **dato personal**, finalidad HU-04), `ORDEN.emitida_en` y `ORDEN.cerrada_en` (HU-05).
 
 **Privacidad desde el diseño:** el formulario no pide teléfono, RUT ni correo del operador, porque ninguna historia los necesita. `USUARIO.correo` existe en la estructura de datos, pero ninguna pantalla lo usa; queda marcado para eliminarlo o justificarlo cuando definamos el inicio de sesión.
 
