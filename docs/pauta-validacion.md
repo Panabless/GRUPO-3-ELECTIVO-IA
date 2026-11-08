@@ -6,7 +6,7 @@ Guion para leer en cada sesión con controladores de flota. Duración total: 20 
 
 Leer en voz alta:
 
-«Gracias por su tiempo. Somos estudiantes de la Universidad de Santiago y estamos evaluando un prototipo, no a usted: no hay respuestas correctas ni incorrectas. Con su permiso grabaremos la pantalla y su voz, no su rostro, para poder revisar lo que ocurrió. La grabación la verán solo las cinco personas del equipo y el profesor del curso, se guardará en una carpeta con acceso restringido y se eliminará al terminar el curso. En los informes aparecerá como P1, P2…, nunca con su nombre. La participación es voluntaria y puede detenerse cuando quiera sin explicar por qué. ¿Está de acuerdo en que empecemos a grabar?»
+«Gracias por su tiempo. Somos estudiantes de la Universidad de Santiago y estamos evaluando un prototipo, no a usted: no hay respuestas correctas ni incorrectas. Con su permiso grabaremos solo la pantalla de este computador, no su voz ni su rostro; lo que usted diga lo anotamos a mano. La grabación la verán solo las cinco personas del equipo y el profesor del curso, se guardará en una carpeta con acceso restringido y se eliminará al terminar el curso. En los informes aparecerá como P1, P2…, nunca con su nombre. La participación es voluntaria y puede detenerse cuando quiera sin explicar por qué. ¿Está de acuerdo en que empecemos a grabar?»
 
 Anotar la respuesta. Si dice que no, se hace la sesión sin grabar y solo se registran notas.
 
@@ -26,16 +26,17 @@ Repreguntar solo con «¿y después qué pasó?» o «¿cómo lo hizo?».
 
 Leer cada escenario exactamente como está. No señalar pantallas ni nombrar botones. Si pide ayuda, responder «¿qué haría usted según lo que ve?» y registrarlo como ayuda pedida. Si no avanza al doble del tiempo umbral, anotar «no completa sin ayuda» y pasar a la siguiente tarea.
 
-**T1 (umbral: 4 de 5 en menos de 2 min).**
-«Empieza su turno. Quiere saber qué camiones podrían quedarse sin combustible pronto y de cuáles no puede fiarse del dato.»
+**T1 (umbral: todos sin ayuda en menos de 2 min, máximo 1 desvío).**
+«Empieza su turno. Quiere saber qué camiones podrían quedarse sin combustible pronto y cuál revisaría primero.»
 
-**T2 (umbral: 4 de 5 en menos de 3 min, máximo 1 desvío).**
+**T2 (umbral: todos sin ayuda en menos de 3 min, máximo 1 desvío).**
 «Le preocupa el CAM-12. Quiere comprobar si el dato tiene sentido y, si corresponde, hacer que lo abastezcan.»
 
-**T3 (umbral: 4 de 5 en menos de 90 s).**
+**T3 (umbral: todos sin ayuda en menos de 90 s, máximo 1 desvío).**
+Llevar antes al participante a la primera pantalla. Si no logró registrar la orden de CAM-12 en T2, dejarla registrada antes de leer el escenario.
 «Le avisan que ya terminaron de abastecer el CAM-12. Quiere que el sistema quede al día para el siguiente turno.»
 
-El registrador anota por tarea: minuto de inicio y término, ayudas pedidas y desvíos.
+El registrador anota por tarea: minuto de inicio y término, ayudas pedidas, desvíos y lo que el participante dice en voz alta.
 
 ## 5. Cuestionario SUS (3 min)
 
