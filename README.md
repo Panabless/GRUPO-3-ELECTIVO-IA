@@ -10,8 +10,8 @@ Para el controlador de flota, que hoy coordina más de 30 camiones y no siempre 
 El prototipo navegable no necesita instalación: se abre `prototipo/index.html` en el navegador, o el enlace publicado en [docs/prototipo.md](docs/prototipo.md): https://grupo-3-electivo-ia-prototipo.vercel.app/ (accesible sin iniciar sesión). Usa datos de ejemplo; todavía no se conecta a sensores ni a una base de datos.
 
 ## En qué estado está
-Actualidad: Prototipo navegable y análisis ético del prototipo (Avance 5).
-Etapas previas: Propuesta de valor (Avance 1); Caso de uso, maqueta y roadmap (Avance 2); Repositorio, uso documentado de IA y estructura de datos (Avance 3); Historias de usuario y Wireframes (Avance 4).
+Actualidad: Diseño de prueba de usuarios, pauta de validación y plan de levantamiento (Avance 6).
+Etapas previas: Propuesta de valor (Avance 1); Caso de uso, maqueta y roadmap (Avance 2); Repositorio, uso documentado de IA y estructura de datos (Avance 3); Historias de usuario y Wireframes (Avance 4); Prototipo navegable y análisis ético del prototipo (Avance 5).
 
 ## Quiénes la desarrollan
 Equipo 3: Simón Gallardo, Ikki Saito, Natalia Órdenes, Gabriel Vásquez y Nicolás Rodríguez.
@@ -24,3 +24,5 @@ Equipo 3: Simón Gallardo, Ikki Saito, Natalia Órdenes, Gabriel Vásquez y Nico
 - Wireframes: [docs/wireframes/](docs/wireframes/)
 - Prototipo navegable: [docs/prototipo.md](docs/prototipo.md)
 - Análisis ético: [docs/etica.md](docs/etica.md)
+- Diseño de prueba de usuarios: [docs/prueba-usuarios.md](docs/prueba-usuarios.md)
+- Pauta de validación: [docs/pauta-validacion.md](docs/pauta-validacion.md)
