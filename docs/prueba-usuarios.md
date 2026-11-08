@@ -26,11 +26,11 @@ Métricas por tarea:
 
 | Perfil | Usuario o stakeholder | N.º | Cómo se contacta | Por qué |
 |---|---|---|---|---|
-| Controlador de flota | Usuario (ejecuta las tareas T1 a T3) | 2 o 3 | Contacto directo con los controladores que ya participaron en la conversación del 15 de octubre (ver `docs/historias.md`). La sesión es en la sala de control dde la operacion, en una ventana de su jornada en que puedan realizar la prueba. | Es quien hoy revisa camión por camión y quien usaría la aplicación en cada turno, así que es quien debe poder recorrer el flujo. |
+| Controlador de flota | Usuario (ejecuta las tareas T1 a T3) | 2 o 3 | Contacto directo con los controladores que ya participaron en la conversación del 15 de octubre (ver `docs/historias.md`). La sesión es en la sala de control de la operacion, en una ventana de su jornada en que puedan realizar la prueba. | Es quien hoy revisa camión por camión y quien usaría la aplicación en cada turno, así que es quien debe poder recorrer el flujo. |
 | Jefe de turno | Stakeholder (no ejecuta tareas; se le consulta por restricciones y adopción) | 1 | Mediante el mismo contacto en la organización, en la faena, en un momento de menor carga. | Revisa órdenes y cierres del turno y define si el registro encaja con su forma de supervisar. |
 | Operador de camión de combustible | Stakeholder y perfil del excluido según el mapa de impacto del Avance 5 | 1 o 2 | Mediante jefatura de la operación, o con operadores de la misma función en otra faena si la organización no autoriza. | Recibe las órdenes sin usar la aplicación y su versión solo queda si el controlador la anota. Como el prototipo no tiene pantalla para él, se lo entrevista (contexto y cierre), no se le piden tareas. |
 
-Sobre la cantidad: la referencia es cinco por perfil. Con los stakeholders se reduce a tres porque su sesión es una entrevista corta sin tareas y no un recorrido del prototipo.
+Sobre la cantidad: la referencia es cinco por perfil, pero la prueba se hará en una sala de control con acceso controlado y confidencial, con personas que solo pueden participar cuando tienen una ventana libre en sus labores. Por eso el mínimo es un controlador, un jefe de turno y un operador, y se llega a dos controladores si es posible.
 
 No se reclutará solo entre compañeros de curso. Si la organización exige una autorización formal, se solicitará al profesor el certificado de respaldo por correo, indicando la organización y la persona a quien se dirige. Si aun así no se obtiene el permiso, se invitará a personas con la misma función en otra empresa o faena, justificando por qué representan a quien usará la solución.
 
@@ -42,7 +42,7 @@ Ver [docs/pauta-validacion.md](pauta-validacion.md).
 
 ## 5. Plan de levantamiento
 
-Sesiones: 11 (5 con controladores, 3 con jefes de turno, 3 con operadores de camión de combustible) · Duración por sesión: máximo 20 min para controladores (consentimiento, contexto, tareas y SUS) y máximo 15 min para los stakeholders.
+Sesiones: 4 (2 con controladores, 1 entrevista con el jefe de turno y 1 entrevista con el operador de camión de combustible); 3 si solo se logra un controlador· Duración por sesión: máximo 20 min para controladores (consentimiento, contexto, tareas y SUS) y máximo 15 min para los stakeholders.
 
 Roles en cada sesión (se rotan entre el equipo):
 - **Facilita:** es la única persona que habla con el participante. [por definir]
@@ -51,7 +51,7 @@ Roles en cada sesión (se rotan entre el equipo):
 
 Ninguna persona cumple dos roles en la misma sesión.
 
-Cómo se registra: se graba la pantalla y la voz, nunca el rostro, con el consentimiento leído al inicio. Las grabaciones se guardan en una carpeta del curso en Drive con acceso restringido al equipo y al profesor, **fuera de este repositorio**, y se eliminan al terminar el curso. En el repositorio solo se conserva la planilla, con códigos como P1, P2 y nunca nombres.
+Cómo se registra: en las sesiones solo se graba **solo la pantalla del computador del facilitador**, sin voz ni rostro, con el consentimiento leído al inicio. Las entrevistas con el jefe de turno y con el operador no se graban: solo se toman notas. Se descarta la voz porque la sala de control es ruidosa y la información que allí circula es confidencial por políticas de la organización; lo que la persona dice lo anota quien registra. Las grabaciones se guardan en una carpeta del curso en Drive con acceso restringido al equipo y al profesor, **fuera de este repositorio**, y se eliminan al terminar el curso. En el repositorio solo se conserva la planilla, con códigos como P1, P2 y nunca nombres.
 
 Preparación del prototipo: en cada sesión se parte desde cero con el botón «Reiniciar» y se ignora la barra inferior de revisión («Vacío», «Cargando», «Sin conexión»), que existe solo para mostrar estados y no forma parte de la aplicación.
 
