@@ -15,9 +15,7 @@ Fuera del alcance: esta prueba no comprueba si el sistema funciona técnicamente
 | T1 | HU-01, HU-03 | «Empieza su turno. Quiere saber qué camiones podrían quedarse sin combustible pronto y cuál revisaría primero.» | Identificar los camiones que requieren atención y cuál verificar primero | Nombra CAM-07 y CAM-12 como críticos y reconoce que el dato de CAM-21 no es confiable, sin tratarlo como normal | La lista «Requieren atención», el estado «Sin señal», que se toca el camión | Todos los controladores sin ayuda en menos de 2 min, máximo 1 desvío |
 | T2 | HU-02, HU-04 | «Le preocupa el CAM-12. Quiere comprobar si el dato tiene sentido y, si corresponde, hacer que lo abastezcan.» | Revisar los antecedentes y registrar una orden de reabastecimiento | Orden registrada para CAM-12 con un carro disponible y un sector, sin ayuda | Nombres de pantallas y campos, qué carro está disponible | Todos los controladores sin ayuda en menos de 3 min, máximo 1 desvío |
 | T3a (controlador) | HU-05 | «Le avisan que ya terminaron de abastecer el CAM-12. Quiere que el sistema quede al día para el siguiente turno.» | Dejar registrado que el abastecimiento terminó | Orden cerrada y CAM-12 fuera de pendientes | Dónde está la confirmación | Todos los controladores sin ayuda en menos de 90 seg, máximo 1 desvío |
-| T3b (operador combustible) | HU-04 | «Esto quedó registrado sobre un abastecimiento. Cuéntenos con sus palabras qué le están pidiendo a usted y dónde.» | Entender camión, sector y qué se espera de él | Dice que debe ir al CAM-19, en el Sector A, sin ayuda | Qué significa cada estado y cada campo | Sin ayuda en menos de 1 min |
 
-T3 es una sola tarea con dos versiones según el perfil. Para T3a, el facilitador lleva al participante a la primera pantalla antes de leer el escenario. Para T3b se muestra la pantalla de la orden en proceso de CAM-19, que ya viene cargada en los datos de ejemplo.
 
 Métricas por tarea:
 - **Eficacia:** completa sin ayuda (sí o no).
@@ -28,8 +26,8 @@ Métricas por tarea:
 
 | Perfil | Usuario o stakeholder | N.º | Cómo se contacta | Por qué |
 |---|---|---|---|---|
-| Controlador de flota | Usuario (ejecuta las tareas T1 a T3) | 5 | Contacto directo con los controladores que ya participaron en la conversación del 15 de octubre (ver `docs/historias.md`). Si hacen falta más, se pide a jefatura que invite a otros del mismo cargo. | Es quien hoy revisa camión por camión y quien usaría la aplicación en cada turno, así que es quien debe poder recorrer el flujo. |
-| Jefe de turno | Stakeholder (no ejecuta tareas; se le consulta por restricciones y adopción) | 3 | Mediante el mismo contacto en la organización. | Revisa órdenes y cierres del turno y define si el registro encaja con su forma de supervisar. |
+| Controlador de flota | Usuario (ejecuta las tareas T1 a T3) | 5 | Contacto directo con los controladores que ya participaron en la conversación del 15 de octubre (ver `docs/historias.md`). La sesión es en la sala de control dde la operacion, en una ventana de su jornada en que puedan realizar la prueba. | Es quien hoy revisa camión por camión y quien usaría la aplicación en cada turno, así que es quien debe poder recorrer el flujo. |
+| Jefe de turno | Stakeholder (no ejecuta tareas; se le consulta por restricciones y adopción) | 3 | Mediante el mismo contacto en la organización, en la faena, en un momento de menor carga. | Revisa órdenes y cierres del turno y define si el registro encaja con su forma de supervisar. |
 | Operador de camión de combustible | Stakeholder y perfil del excluido según el mapa de impacto del Avance 5 | 3 | Mediante jefatura de la operación, o con operadores de la misma función en otra faena si la organización no autoriza. | Recibe las órdenes sin usar la aplicación y su versión solo queda si el controlador la anota. Como el prototipo no tiene pantalla para él, se lo entrevista (contexto y cierre), no se le piden tareas. |
 
 Sobre la cantidad: la referencia es cinco por perfil. Con los stakeholders se reduce a tres porque su sesión es una entrevista corta sin tareas y no un recorrido del prototipo.
