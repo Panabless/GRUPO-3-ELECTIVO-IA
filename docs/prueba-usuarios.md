@@ -20,3 +20,47 @@ Métricas por tarea:
 - **Eficacia:** completa sin ayuda (sí o no).
 - **Eficiencia:** tiempo, ayudas pedidas y desvíos.
 - **Satisfacción:** cuestionario SUS al final de la sesión.
+
+## 3. Perfiles y reclutamiento
+
+| Perfil | Usuario o stakeholder | N.º | Cómo se contacta | Por qué |
+|---|---|---|---|---|
+| Controlador de flota | Usuario (ejecuta las tareas T1 a T3) | 5 | Contacto directo con los controladores que ya participaron en la conversación del 15 de octubre (ver `docs/historias.md`). Si hacen falta más, se pide a jefatura que invite a otros del mismo cargo. | Es quien hoy revisa camión por camión y quien usaría la aplicación en cada turno, así que es quien debe poder recorrer el flujo. |
+| Jefe de turno | Stakeholder (no ejecuta tareas; se le consulta por restricciones y adopción) | 3 | Mediante el mismo contacto en la organización. | Revisa órdenes y cierres del turno y define si el registro encaja con su forma de supervisar. |
+| Operador de camión de combustible | Stakeholder y perfil del excluido según el mapa de impacto del Avance 5 | 3 | Mediante jefatura de la operación, o con operadores de la misma función en otra faena si la organización no autoriza. | Recibe las órdenes sin usar la aplicación y su versión solo queda si el controlador la anota. Como el prototipo no tiene pantalla para él, se lo entrevista (contexto y cierre), no se le piden tareas. |
+
+Sobre la cantidad: la referencia es cinco por perfil. Con los stakeholders se reduce a tres porque su sesión es una entrevista corta sin tareas y no un recorrido del prototipo.
+
+No se reclutará solo entre compañeros de curso. Si la organización exige una autorización formal, se solicitará al profesor el certificado de respaldo por correo, indicando la organización y la persona a quien se dirige. Si aun así no se obtiene el permiso, se invitará a personas con la misma función en otra empresa o faena, justificando por qué representan a quien usará la solución.
+
+En este repositorio no se escribirán nombres, teléfonos ni correos de participantes.
+
+## 4. Pauta de validación
+
+Ver [docs/pauta-validacion.md](pauta-validacion.md).
+
+## 5. Plan de levantamiento
+
+Sesiones: 11 (5 con controladores, 3 con jefes de turno, 3 con operadores de camión de combustible) · Duración por sesión: máximo 20 min para controladores (consentimiento, contexto, tareas y SUS) y máximo 15 min para los stakeholders.
+
+Roles en cada sesión (se rotan entre el equipo):
+- **Facilita:** es la única persona que habla con el participante. [por definir]
+- **Registra:** anota en la planilla, sin intervenir. [por definir]
+- **Resguarda la evidencia:** sube la grabación a la carpeta y verifica que quedó protegida. [por definir]
+
+Ninguna persona cumple dos roles en la misma sesión.
+
+Cómo se registra: se graba la pantalla y la voz, nunca el rostro, con el consentimiento leído al inicio. Las grabaciones se guardan en una carpeta del curso en Drive con acceso restringido al equipo y al profesor, **fuera de este repositorio**, y se eliminan al terminar el curso. En el repositorio solo se conserva la planilla, con códigos como P1, P2 y nunca nombres.
+
+Preparación del prototipo: en cada sesión se parte desde cero con el botón «Reiniciar» y se ignora la barra inferior de revisión («Vacío», «Cargando», «Sin conexión»), que existe solo para mostrar estados y no forma parte de la aplicación.
+
+Planilla de registro (una fila por observación):
+
+| Participante | Tarea | Minuto | Observado | Interpretado | Severidad |
+|---|---|---|---|---|---|
+| | | | | | |
+
+Regla de decisión:
+- **Bloquea** (la persona no completa la tarea sin ayuda): se corrige antes de construir.
+- **Entorpece** (completa con dudas o errores): se prioriza según cuántas personas lo vivieron.
+- **Estético** (completa y solo le incomoda): se registra y espera.
