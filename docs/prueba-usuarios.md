@@ -19,7 +19,7 @@ Fuera del alcance: esta prueba no comprueba si el sistema funciona técnicamente
 
 Métricas por tarea:
 - **Eficacia:** completa sin ayuda (sí o no).
-- **Eficiencia:** tiempo, ayudas pedidas y desvíos.
+- **Eficiencia:** tiempo, ayudas pedidas y desvíos. *Ayuda* es cualquier pista del facilitador o consulta sobre cómo continuar; *desvío* es entrar a una pantalla que no corresponde a la tarea.
 - **Satisfacción:** cuestionario SUS al final de la sesión.
 
 ## 3. Perfiles y reclutamiento
