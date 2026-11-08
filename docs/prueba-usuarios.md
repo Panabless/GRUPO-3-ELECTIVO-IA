@@ -4,7 +4,7 @@
 
 Pregunta: ¿se entiende y se logra el flujo principal: identificar un camión que requiere atención, asignarle un carro y confirmar el cierre del abastecimiento?
 
-Hipótesis: Creemos que un controlador de flota que no conoce el prototipo puede completar el flujo principal sin ayuda. Lo sabremos cuando observemos que al menos 4 de 5 personas completan cada tarea sin ayuda dentro del tiempo umbral y que ninguna toma un camión «sin señal» como si estuviera normal. Si 2 o más personas no completan una tarea sin ayuda, la hipótesis queda refutada para esa tarea.
+Hipótesis: Creemos que un controlador de flota que no conoce el prototipo puede completar el flujo principal sin ayuda. Lo sabremos cuando observemos que todos los controladores que participen (dos o tres) completan T1 y T2 sin ayuda dentro del tiempo umbral, que ninguno toma un camión «sin señal» como si estuviera normal y que el operador del camión de combustible entiende sin ayuda lo que se le pide en una orden (T3). Si una persona no completa una tarea sin ayuda, la hipótesis queda refutada para esa tarea.
 
 Fuera del alcance: esta prueba no comprueba si el sistema funciona técnicamente (lectura real de sensores, envío real de la orden, conexión a base de datos), ni si la regla de priorización es la correcta para la operación, ni el desempeño en condiciones reales de mina.
 
