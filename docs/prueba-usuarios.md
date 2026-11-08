@@ -4,7 +4,7 @@
 
 Pregunta: ¿se entiende y se logra el flujo principal: identificar un camión que requiere atención, asignarle un carro y confirmar el cierre del abastecimiento?
 
-Hipótesis: Creemos que un controlador de flota que no conoce el prototipo puede completar el flujo principal sin ayuda. Lo sabremos cuando observemos que todos los controladores que participen (dos o tres) completan T1 y T2 sin ayuda dentro del tiempo umbral, que ninguno toma un camión «sin señal» como si estuviera normal y que el operador del camión de combustible entiende sin ayuda lo que se le pide en una orden (T3). Si una persona no completa una tarea sin ayuda, la hipótesis queda refutada para esa tarea.
+Hipótesis: Creemos que un controlador de flota que no conoce el prototipo puede completar el flujo principal sin ayuda. Lo sabremos cuando observemos que todos los controladores que participen (uno o dos) completan T1, T2 y T3 sin ayuda dentro del tiempo umbral y que ninguno toma un camión «sin señal» como si estuviera normal Si una persona no completa una tarea sin ayuda, la hipótesis queda refutada para esa tarea.
 
 Fuera del alcance: esta prueba no comprueba si el sistema funciona técnicamente (lectura real de sensores, envío real de la orden, conexión a base de datos), ni si la regla de priorización es la correcta para la operación, ni el desempeño en condiciones reales de mina.
 
@@ -14,7 +14,7 @@ Fuera del alcance: esta prueba no comprueba si el sistema funciona técnicamente
 |---|---|---|---|---|---|---|
 | T1 | HU-01, HU-03 | «Empieza su turno. Quiere saber qué camiones podrían quedarse sin combustible pronto y cuál revisaría primero.» | Identificar los camiones que requieren atención y cuál verificar primero | Nombra CAM-07 y CAM-12 como críticos y reconoce que el dato de CAM-21 no es confiable, sin tratarlo como normal | La lista «Requieren atención», el estado «Sin señal», que se toca el camión | Todos los controladores sin ayuda en menos de 2 min, máximo 1 desvío |
 | T2 | HU-02, HU-04 | «Le preocupa el CAM-12. Quiere comprobar si el dato tiene sentido y, si corresponde, hacer que lo abastezcan.» | Revisar los antecedentes y registrar una orden de reabastecimiento | Orden registrada para CAM-12 con un carro disponible y un sector, sin ayuda | Nombres de pantallas y campos, qué carro está disponible | Todos los controladores sin ayuda en menos de 3 min, máximo 1 desvío |
-| T3a (controlador) | HU-05 | «Le avisan que ya terminaron de abastecer el CAM-12. Quiere que el sistema quede al día para el siguiente turno.» | Dejar registrado que el abastecimiento terminó | Orden cerrada y CAM-12 fuera de pendientes | Dónde está la confirmación | Todos los controladores sin ayuda en menos de 90 seg, máximo 1 desvío |
+| T3 | HU-05 | «Le avisan que ya terminaron de abastecer el CAM-12. Quiere que el sistema quede al día para el siguiente turno.» | Dejar registrado que el abastecimiento terminó | Orden cerrada y CAM-12 fuera de pendientes | Dónde está la confirmación | Todos los controladores sin ayuda en menos de 90 seg, máximo 1 desvío |
 
 
 Métricas por tarea:
