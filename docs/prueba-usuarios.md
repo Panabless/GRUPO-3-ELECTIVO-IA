@@ -12,9 +12,10 @@ Fuera del alcance: esta prueba no comprueba si el sistema funciona técnicamente
 
 | Tarea | HU | Escenario | Objetivo | Éxito | No revelar | Umbral |
 |---|---|---|---|---|---|---|
-| T1 | HU-01, HU-03 | «Empieza su turno. Quiere saber qué camiones podrían quedarse sin combustible pronto y de cuáles no puede fiarse del dato.» | Identificar los camiones que requieren atención y el que tiene información no confiable | Nombra CAM-07 y CAM-12 como críticos y CAM-21 como dato no confiable, sin tratarlo como normal | La lista «Requieren atención», el estado «Sin señal», que se toca el camión | Todos los controladores sin ayuda en menos de 2 min, máximo 1 desvío |
+| T1 | HU-01, HU-03 | «Empieza su turno. Quiere saber qué camiones podrían quedarse sin combustible pronto y cuál revisaría primero.» | Identificar los camiones que requieren atención y cuál verificar primero | Nombra CAM-07 y CAM-12 como críticos y reconoce que el dato de CAM-21 no es confiable, sin tratarlo como normal | La lista «Requieren atención», el estado «Sin señal», que se toca el camión | Todos los controladores sin ayuda en menos de 2 min, máximo 1 desvío |
 | T2 | HU-02, HU-04 | «Le preocupa el CAM-12. Quiere comprobar si el dato tiene sentido y, si corresponde, hacer que lo abastezcan.» | Revisar los antecedentes y registrar una orden de reabastecimiento | Orden registrada para CAM-12 con un carro disponible y un sector, sin ayuda | Nombres de pantallas y campos, qué carro está disponible | Todos los controladores sin ayuda en menos de 3 min, máximo 1 desvío |
 | T3 | HU-05 | «Le avisan que ya terminaron de abastecer el CAM-12. Quiere que el sistema quede al día para el siguiente turno.» | Dejar registrado que el abastecimiento terminó | Orden cerrada y CAM-12 fuera de pendientes | Dónde está la confirmación | Todos los controladores sin ayuda en menos de 90 seg, máximo 1 desvío |
+| T3b (operador) | HU-04 | «Esto quedó registrado sobre un abastecimiento. Cuéntenos con sus palabras qué le están pidiendo a usted y dónde.» | Entender camión, sector y qué se espera de él | Dice que debe ir al CAM-19, en el Sector A, sin ayuda | Qué significa cada estado y cada campo | Sin ayuda en menos de 1 min |
 
 Métricas por tarea:
 - **Eficacia:** completa sin ayuda (sí o no).
