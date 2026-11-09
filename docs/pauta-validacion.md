@@ -6,7 +6,7 @@ Guion para leer en cada sesión con controladores de flota. Duración total: 20 
 
 Leer en voz alta:
 
-«Gracias por su tiempo. Somos estudiantes de la Universidad de Santiago y estamos evaluando un prototipo, no a usted, para encontrar qué partes hay que mejorar: no hay respuestas correctas ni incorrectas.: no hay respuestas correctas ni incorrectas. Con su permiso grabaremos solo la pantalla de este computador, no su voz ni su rostro; lo que usted diga lo anotamos a mano. La grabación la verán solo las cinco personas del equipo y el profesor del curso, se guardará en una carpeta con acceso restringido y se eliminará al terminar el curso. En los informes aparecerá como P1, P2…, nunca con su nombre. La participación es voluntaria y puede detenerse cuando quiera sin explicar por qué. ¿Está de acuerdo en que empecemos a grabar?»
+«Gracias por su tiempo. Somos estudiantes de la Universidad de Santiago y estamos evaluando un prototipo, no a usted, para encontrar qué partes hay que mejorar: no hay respuestas correctas ni incorrectas. Con su permiso grabaremos solo la pantalla de este computador, no su voz ni su rostro; lo que usted diga lo anotamos a mano. La grabación la verán solo las cinco personas del equipo y el profesor del curso, se guardará en una carpeta con acceso restringido y se eliminará al terminar el curso. En los informes aparecerá como P1, P2…, nunca con su nombre. La participación es voluntaria y puede detenerse cuando quiera sin explicar por qué. ¿Está de acuerdo en que empecemos a grabar?»
 
 Anotar la respuesta. Si dice que no, se hace la sesión sin grabar y solo se registran notas.
 
@@ -36,7 +36,7 @@ Leer cada escenario exactamente como está. No señalar pantallas ni nombrar bot
 Llevar antes al participante a la primera pantalla. Si no logró registrar la orden de CAM-12 en T2, dejarla registrada antes de leer el escenario.
 «Le avisan que ya terminaron de abastecer el CAM-12. Quiere que el sistema quede al día para el siguiente turno.»
 
-El registrador anota por tarea: minuto de inicio y término, ayudas pedidas, desvíos y lo que el participante dice en voz alta.
+El registrador anota por tarea: minuto de inicio y término, ayudas pedidas, desvíos y lo que el participante dice en voz alta. En T1 y T2 anota además si el participante menciona o abre CAM-21.
 
 ## 5. Cuestionario SUS (3 min)
 
@@ -62,4 +62,5 @@ Agradecer, y recordar que puede pedir que se elimine su grabación escribiendo a
 
 ## Variante para stakeholders (15 min, sin tareas ni SUS)
 
-Jefes de turno y operadores de camión de combustible: consentimiento (2 min), dos preguntas de contexto sobre hechos pasados (5 min) y cierre (3 min). Preguntas de contexto para el jefe de turno: «¿Cómo reconstruyó la última vez lo que pasó en un turno?» y «¿Qué pasó la última vez que una alerta quedó sin atender?». Para el operador: «Cuénteme la última orden de abastecimiento que recibió: cómo le llegó y qué hizo» y «¿Qué pasó la última vez que no pudo llegar al camión a tiempo?». Cierre: «¿Qué le costó o le hizo dudar de lo que conversamos hoy?».
+Jefes de turno y operadores de camión de combustible: consentimiento (2 min), dos preguntas de contexto sobre hechos pasados (5 min) y cierre (3 min). Preguntas de contexto para el jefe de turno: «¿Cómo reconstruyó la última vez lo que pasó en un turno?» y «¿Qué pasó la última vez que una alerta quedó sin atender?». Para el operador: «Cuénteme la última orden de abastecimiento que recibió: cómo le llegó y qué hizo» y «¿Qué pasó la última vez que no pudo llegar al camión a tiempo?». Cierre: «¿Qué le costó o le hizo dudar de lo que conversamos hoy?». 
+
