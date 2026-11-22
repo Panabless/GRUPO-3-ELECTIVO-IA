@@ -65,6 +65,6 @@ Para probar que la validación está en el servidor y no solo en la pantalla, se
 
 ## Evidencia
 
-- **Dirección pública:** PENDIENTE (pegar el enlace de Vercel)
+- **Dirección pública:** https://grupo-3-electivo-ia-src.vercel.app/
 - **Video (1–2 min, pantalla y voz):** PENDIENTE (pegar el enlace con acceso para la profesora)
-- **Caso de error probado:** en `…/?prueba` se eligió CAM-12 + SEC-A + CAR-02 (fuera de servicio). El servidor respondió 400 «Ese camión de combustible no está disponible», y en Supabase (Table Editor → `orden`) no apareció ninguna fila nueva.
+- **Caso de error probado:** en https://grupo-3-electivo-ia-src.vercel.app/?prueba se eligió CAM-07 + Camión de combustible 2 (fuera de servicio): el servidor respondió «La orden no se guardó» y en Supabase la tabla `orden` quedó solo con la orden del caso de éxito (ORD-001). También se probó CAM-03, que no tiene alerta activa, y el servidor la rechazó.
