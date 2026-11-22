@@ -14,7 +14,7 @@ El prototipo navegable no necesita instalación: se abre `prototipo/index.html` 
 **Qué hace:** el controlador elige el camión que necesita combustible, el sector de encuentro y el camión de combustible (con su operador). El servidor valida los datos y guarda la orden en Supabase. La pantalla muestra el folio (ORD-001, ORD-002…) o un mensaje de error claro sin borrar lo elegido. Arquitectura, camino delgado y evidencia: [docs/arquitectura.md](docs/arquitectura.md).
 
 - **Dirección pública:** (https://grupo-3-electivo-ia-src.vercel.app/)
-- **Video (1–2 min):** PENDIENTE (pegar el enlace)
+- **Video (1–2 min):** https://drive.google.com/file/d/11jzKxETePE0DpHelf8HaKgvgIpvL6DFd/view?usp=sharing
 
 **Tecnología:** página web sin librerías (`src/index.html`), funciones del servidor en Vercel (`src/api/`), base de datos Supabase (`src/db/esquema.sql`) y publicación en Vercel desde la rama `main`. No hay que instalar nada en el computador.
 
