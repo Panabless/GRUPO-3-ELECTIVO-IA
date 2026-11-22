@@ -66,5 +66,5 @@ Para probar que la validación está en el servidor y no solo en la pantalla, se
 ## Evidencia
 
 - **Dirección pública:** https://grupo-3-electivo-ia-src.vercel.app/
-- **Video (1–2 min, pantalla y voz):** PENDIENTE (pegar el enlace con acceso para la profesora)
+- **Video (1–2 min, pantalla y voz):** https://drive.google.com/file/d/11jzKxETePE0DpHelf8HaKgvgIpvL6DFd/view?usp=sharing
 - **Caso de error probado:** en https://grupo-3-electivo-ia-src.vercel.app/?prueba se eligió CAM-07 + Camión de combustible 2 (fuera de servicio): el servidor respondió «La orden no se guardó» y en Supabase la tabla `orden` quedó solo con la orden del caso de éxito (ORD-001). También se probó CAM-03, que no tiene alerta activa, y el servidor la rechazó.
