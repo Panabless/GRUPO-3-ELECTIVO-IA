@@ -30,3 +30,42 @@
 - **Respuesta obtenida:** Correcciones de redacción y de diseño de ambos documentos y un plan con grabación solo de pantalla y menos participantes.
 - **Qué se aceptó y qué se corrigió:** Se aceptó mantener las tres tareas y los tiempos del borrador. Se corrigió: (1) la tarea 1 insinuaba que había un dato dudoso y ahora pregunta qué camión revisaría primero; (2) una pregunta de cierre suponía que hubo dificultad y ahora pregunta qué fue lo más fácil y lo más difícil; (3) el criterio de la tarea 2 decía «carro», pero la pantalla dice «camión de combustible»; (4) se agregó qué hacer si la tarea 3 depende de una orden que no se registró en la tarea 2. Se ajustó la muestra a 1 o 2 controladores, 1 jefe de turno y 1 operador, con umbrales de «todos sin ayuda». 
 - **Cómo se verificó:** Se compararon los escenarios y los criterios de éxito con los datos de ejemplo y los nombres de pantalla del prototipo, y se revisó cada pregunta para que no sugiera la respuesta ni pida opiniones sobre el futuro.
+
+## Encargo 5: Arquitectura y prueba de concepto de HU-04 (Avance 7)
+
+**Encargo entregado al agente (formato clase 6.1):**
+- **Contexto:** Somos el Equipo 3. La solución monitorea el combustible de una flota de camiones mineros autónomos. El camino delgado elegido es HU-04 (`docs/historias.md`): el controlador asigna la orden de reabastecimiento al operador del camión de combustible, indicando el camión y el sector de encuentro. Se entregaron `docs/datos/estructura_datos.md`, `prototipo/index.html` (pantalla «Asignar orden» ya probada) y las instrucciones del Avance 7.
+- **Intención:** Que esa única acción funcione de verdad publicada en Vercel. El formulario se envía, el servidor valida, la orden se guarda en Supabase y la pantalla muestra el folio o un error claro.
+- **Restricciones:**
+  - Validar en la pantalla y también en el servidor: un dato inválido no se guarda aunque el formulario lo deje pasar.
+  - Usar solo los nombres de tablas y campos de la estructura de datos.
+  - Ninguna clave en el código: las claves van solo en las variables de Vercel, y `.env.example` lleva solo los nombres.
+  - Sin librerías nuevas ni servidor propio.
+  - Sin pantallas extra: el resto queda simulado en el prototipo.
+  - Datos de ejemplo inventados.
+  - Nunca borrar lo que la persona eligió.
+- **Verificación:** Probar el caso de éxito y los intentos de rotura: campo vacío, doble envío, texto larguísimo, base de datos sin conexión y registro inexistente. Comprobar en Supabase que solo el caso de éxito deja una fila.
+
+**Registro:**
+- **Objetivo:** Construir la PoC de HU-04 y documentar su arquitectura en `docs/arquitectura.md`.
+- **Instrucción entregada:** El encargo de arriba, más la plantilla de la clase 5.2 (tabla de piezas y camino delgado) y la presentación de la clase 6.1 (capas de validación, mensajes de error y los 5 intentos de rotura).
+- **Respuesta obtenida:** `src/index.html`, las funciones `src/api/ordenes.js` y `src/api/opciones.js`, `src/db/esquema.sql` (6 tablas con restricciones y datos de ejemplo), `docs/arquitectura.md`, la sección PoC del README y `.env.example`.
+- **Qué se aceptó y qué se corrigió o rechazó:**
+  - Se aceptó la arquitectura de pantalla → función de Vercel → Supabase, porque es la que pide el curso.
+  - Se rechazó reutilizar el servidor Node.js del Avance 3: la profesora pidió no armar un backend propio.
+  - Se rechazó que la pantalla escribiera directo en Supabase con la clave pública. Era más simple, pero cualquiera podría guardar órdenes sin pasar por la validación del servidor. Por eso las tablas tienen seguridad por filas activada y solo la función del servidor tiene la clave secreta.
+  - Se corrigió que el folio se inventaba en la pantalla (en el prototipo era fijo, ORD-003). Ahora lo genera la base de datos, para que no se repita.
+  - Se aceptó la regla de que un camión sin alerta activa no puede recibir orden, porque en la estructura de datos toda orden nace de una alerta.
+  - El doble envío se bloquea en tres capas: el botón se desactiva mientras se envía, el servidor revisa si la alerta ya tiene orden y la base de datos tiene `id_alerta` único.
+  - Se agregaron permisos explícitos para la clave del servidor en el SQL, porque los proyectos nuevos de Supabase pueden no darlos por defecto.
+  - Se quitó una importación sin uso en `api/opciones.js`.
+- **Cómo se verificó:**
+  - Antes de publicar, se ejecutó el servidor contra una base de datos simulada con 8 casos: vacío, texto de 5.000 caracteres, camión inexistente, camión de combustible fuera de servicio, camión sin alerta, éxito (ORD-001), doble envío y cuerpo inválido. Además se probaron la base de datos caída y las variables faltantes. Solo el caso de éxito guardó una fila; los demás respondieron 400, 409 o 503 con su mensaje.
+  - Se recorrió la pantalla en un navegador: campos vacíos, éxito y prueba con CAR-02.
+  - Ya publicado en Vercel con Supabase real (22-11-2026): Simón Gallardo comprobó que la página carga los datos desde Supabase y que el servidor rechaza CAM-03 por no tener alerta activa. Natalia Órdenes registró la orden de CAM-07 (folio ORD-001), comprobó en `?prueba` que el Camión de combustible 2 fuera de servicio es rechazado y revisó en Supabase que la tabla `orden` quedó con una sola fila. Luego probó estos casos de error, y en ninguno apareció una fila nueva en la tabla `orden`:
+    - Caso 1 (camión de combustible fuera de servicio): CAM-12 con el Camión de combustible 2 en el Sector D. Mostró «La orden no se guardó - Ese camión de combustible no está disponible. Elija uno disponible.»
+    - Caso 2 (orden duplicada): CAM-07 con el Camión de combustible 1 en el Sector B. Mostró «La orden no se guardó - CAM-07 ya tiene la orden ORD-001 registrada. No se creó otra.»
+    - Caso 3 (camión sin alerta): CAM-03 con el Camión de combustible 1 en el Sector B. Mostró «La orden no se guardó - CAM-03 no tiene una alerta activa: no corresponde asignarle una orden.»
+    - Caso 4 (campos vacíos): sin elegir ningún dato. Mostró «Elija el camión que necesita combustible.», «Elija el sector donde el operador se encontrará con el camión.» y «Elija el camión de combustible que irá; la orden le llega a su operador.»
+  - Video (22-11-2026): Gabriel Vásquez recorrió la página publicada en incógnito y grabó la demostración: registró la orden de CAM-12 (folio ORD-003) y mostró que se mantiene al recargar; luego intentó una segunda orden para CAM-21, que el servidor rechazó porque ya tenía la orden ORD-002, y una orden para CAM-03, rechazada por no tener alerta activa.
+  - Corrección al publicar: la primera versión mostraba «No se pudieron cargar los datos». En los registros (Logs) de Vercel apareció «Invalid API key»: la clave de Supabase se había copiado mal en las variables de entorno. Se volvió a copiar desde la fuente, se republicó y funcionó.

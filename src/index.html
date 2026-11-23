@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asignar orden · PoC Equipo 3</title>
+<style>
+  /* Mismo sistema mínimo del prototipo: texto 24/16 px · acción #1D4ED8 · alerta #B42318 · espaciado 8 px */
+  :root { --accion:#1D4ED8; --accion-suave:#E8EEFC; --alerta:#B42318; --alerta-suave:#FDECEA; --ok:#1F2937;
+          --tinta:#1F2937; --gris:#4B5563; --linea:#D1D5DB; --fondo:#F6F7F9; --blanco:#FFFFFF; --u:8px; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--fondo); color:var(--tinta); font:16px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif; }
+  button, select { font: inherit; }
+  .app { max-width: 720px; margin: 0 auto; padding: calc(var(--u)*2); }
+  .cab { display:flex; justify-content:space-between; align-items:center; gap:var(--u); flex-wrap:wrap; color:var(--gris); margin-bottom:calc(var(--u)*2); }
+  .hu { border:1px solid var(--gris); border-radius:999px; padding:0 var(--u); }
+  h1 { font-size:24px; line-height:1.25; margin:0 0 calc(var(--u)*2); }
+  h2 { font-size:16px; text-transform:uppercase; letter-spacing:.04em; color:var(--gris); margin:calc(var(--u)*4) 0 var(--u); }
+  .tarjeta { background:var(--blanco); border:1px solid var(--linea); border-radius:12px; padding:calc(var(--u)*2); }
+  .campo { margin-bottom:calc(var(--u)*3); }
+  .campo label { display:block; font-weight:700; margin-bottom:var(--u); }
+  .campo select { width:100%; min-height:48px; padding:0 12px; border:1.5px solid var(--gris); border-radius:var(--u); background:var(--blanco); color:var(--tinta); }
+  .campo.con-error select { border:2px solid var(--alerta); }
+  .msg-error { color:var(--alerta); margin-top:var(--u); }
+  .ayuda { color:var(--gris); margin-top:var(--u); }
+  .acciones { display:flex; gap:calc(var(--u)*2); flex-wrap:wrap; margin-top:calc(var(--u)*2); }
+  .btn { min-height:48px; padding:0 calc(var(--u)*3); border-radius:var(--u); border:2px solid var(--accion); background:var(--accion); color:#fff; font-weight:700; cursor:pointer; }
+  .btn.sec { background:var(--blanco); color:var(--accion); }
+  .btn:disabled { opacity:.6; cursor:progress; }
+  :focus-visible { outline:3px solid var(--accion); outline-offset:2px; }
+  .caja-error { border:2px solid var(--alerta); background:var(--alerta-suave); border-radius:12px; padding:calc(var(--u)*2); margin-bottom:calc(var(--u)*2); }
+  .caja-error b { color:var(--alerta); }
+  .caja-ok { border:2px solid var(--accion); background:var(--accion-suave); border-radius:12px; padding:calc(var(--u)*2); margin-bottom:calc(var(--u)*2); }
+  .folio { font-size:24px; font-weight:700; }
+  .aviso-prueba { border:1.5px dashed var(--tinta); border-radius:var(--u); padding:var(--u) calc(var(--u)*2); margin-bottom:calc(var(--u)*2); }
+  .cargando { text-align:center; padding:calc(var(--u)*5); color:var(--gris); }
+  .girando { width:32px; height:32px; border:4px solid var(--linea); border-top-color:var(--accion); border-radius:50%; margin:0 auto var(--u); animation:g 1s linear infinite; }
+  @keyframes g { to { transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .girando { animation:none; } }
+  table { width:100%; border-collapse:collapse; background:var(--blanco); border:1px solid var(--linea); }
+  th, td { text-align:left; padding:var(--u) 12px; border-top:1px solid var(--linea); }
+  th { color:var(--gris); border-top:0; }
+  .pie { color:var(--gris); margin-top:calc(var(--u)*4); }
+  a { color:var(--accion); }
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="cab"><span>Monitor de combustible · prueba de concepto</span><span class="hu">HU-04</span></div>
+  <h1>Asignar orden de reabastecimiento</h1>
+  <div id="aviso-prueba"></div>
+  <div id="resultado" aria-live="polite"></div>
+  <div id="contenido"><div class="tarjeta cargando"><div class="girando" aria-hidden="true"></div>Cargando datos de la flota…</div></div>
+
+  <h2>Órdenes registradas</h2>
+  <div id="ordenes" aria-live="polite"><div class="tarjeta">Cargando…</div></div>
+
+  <p class="pie">Esta PoC hace de verdad una sola acción: asignar la orden. Las demás pantallas siguen simuladas en el
+    <a href="https://grupo-3-electivo-ia-prototipo.vercel.app/">prototipo navegable</a>. Datos de ejemplo, inventados.</p>
+</main>
+
+<script>
+// Modo prueba (?prueba en la dirección): la pantalla no valida nada, para comprobar que el servidor rechaza los datos malos.
+const MODO_PRUEBA = new URLSearchParams(location.search).has('prueba');
+let OPC = null;              // camiones, sectores, carros y mensajes que entrega el servidor
+let enviando = false;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const ESTADO = { critico:'crítico', sin_senal:'sin señal', normal:'normal', alerta:'alerta', en_proceso:'en proceso', abastecido:'abastecido' };
+
+if (MODO_PRUEBA) $('aviso-prueba').innerHTML = '<div class="aviso-prueba"><b>Modo prueba:</b> la pantalla no revisa los campos y deja elegir todo. Lo que no cumpla lo rechaza el servidor y no se guarda.</div>';
+
+async function api(ruta, opciones) {
+  const r = await fetch(ruta, opciones);
+  const datos = await r.json().catch(() => ({ ok:false, mensaje:'La respuesta del servidor no se pudo leer. Reintente.' }));
+  return { status: r.status, ...datos };
+}
+
+async function cargarOpciones() {
+  $('contenido').innerHTML = '<div class="tarjeta cargando"><div class="girando" aria-hidden="true"></div>Cargando datos de la flota…</div>';
+  try {
+    const r = await api('api/opciones');
+    if (!r.ok) throw new Error(r.mensaje);
+    OPC = r; pintarFormulario({}, {});
+  } catch (e) {
+    $('contenido').innerHTML = `<div class="caja-error" role="alert"><b>No se pudieron cargar los datos.</b><p>${esc(e.message || 'Revise su conexión.')}</p><button class="btn" type="button" id="reintentar">Reintentar</button></div>`;
+    $('reintentar').onclick = cargarOpciones;
+  }
+}
+
+function pintarFormulario(valores, errores) {
+  const opt = (lista, val, txt, sel, ph, deshabilitar) => `<option value="">${ph}</option>` + lista.map(x =>
+    `<option value="${esc(x[val])}" ${sel === x[val] ? 'selected' : ''} ${deshabilitar && deshabilitar(x) ? 'disabled' : ''}>${esc(txt(x))}</option>`).join('');
+  const campo = (id, etiqueta, opciones, ayuda) => `<div class="campo ${errores[id] ? 'con-error' : ''}">
+      <label for="${id}">${etiqueta} *</label><select id="${id}" ${errores[id] ? 'aria-invalid="true"' : ''} aria-describedby="e-${id}">${opciones}</select>
+      ${errores[id] ? `<div class="msg-error" id="e-${id}">⚠ ${esc(errores[id])}</div>` : (ayuda ? `<div class="ayuda" id="e-${id}">${ayuda}</div>` : '')}</div>`;
+
+  $('contenido').innerHTML = `<form class="tarjeta" id="form" novalidate>
+    ${campo('id_camion', 'Camión que necesita combustible', opt(OPC.camiones, 'id_camion', c => `${c.id_camion} · ${c.nivel_combustible} % · ${ESTADO[c.estado] || c.estado}`, valores.id_camion, 'Elegir camión…'))}
+    ${campo('id_sector', 'Sector de encuentro', opt(OPC.sectores, 'id_sector', s => s.nombre, valores.id_sector, 'Elegir sector…'))}
+    ${campo('id_carro', 'Camión de combustible y operador', opt(OPC.carros, 'id_carro', k => k.estado === 'disponible' ? `${k.nombre} · ${k.usuario?.nombre || ''}` : `${k.nombre} · fuera de servicio`, valores.id_carro, 'Elegir camión de combustible…', MODO_PRUEBA ? null : k => k.estado !== 'disponible'), 'Solo se pueden elegir los que están disponibles.')}
+    <div class="ayuda">* Obligatorio.</div>
+    <div class="acciones"><button class="btn" type="submit" id="enviar" ${enviando ? 'disabled' : ''}>${enviando ? 'Registrando orden…' : 'Enviar orden'}</button></div>
+  </form>`;
+  $('form').onsubmit = enviar;
+}
+
+function leerValores() {
+  return { id_camion: $('id_camion').value, id_sector: $('id_sector').value, id_carro: $('id_carro').value };
+}
+
+async function enviar(ev) {
+  ev.preventDefault();
+  if (enviando) return;                      // evita el doble envío desde la pantalla
+  const v = leerValores();
+  $('resultado').innerHTML = '';
+
+  // Capa 1: el navegador avisa antes de enviar (se salta en modo prueba).
+  if (!MODO_PRUEBA) {
+    const errores = {};
+    for (const k of ['id_camion', 'id_sector', 'id_carro']) if (!v[k]) errores[k] = OPC.mensajes[k];
+    if (Object.keys(errores).length) { pintarFormulario(v, errores); document.querySelector('[aria-invalid="true"]').focus(); return; }
+  }
+
+  // Capa 2: el servidor decide.
+  enviando = true; pintarFormulario(v, {});
+  let r;
+  try { r = await api('api/ordenes', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(v) }); }
+  catch { r = { status:0, ok:false, mensaje:'No hay conexión con el servidor. Lo que eligió sigue en el formulario: reintente en unos segundos.' }; }
+  enviando = false;
+
+  if (r.ok) {
+    const o = r.orden;
+    $('resultado').innerHTML = `<div class="caja-ok" role="status"><div class="folio">✓ Orden ${esc(o.id_orden)} registrada</div>
+      <p>${esc(o.id_camion)} · ${esc(nombre(OPC.sectores, 'id_sector', o.id_sector))} · ${esc(nombre(OPC.carros, 'id_carro', o.id_carro))} · emitida ${hora(o.emitida_en)}</p></div>`;
+    pintarFormulario({}, {});
+    cargarOrdenes();
+  } else {
+    pintarFormulario(v, r.errores || {});    // nunca se borra lo que la persona eligió
+    $('resultado').innerHTML = `<div class="caja-error" role="alert"><b>La orden no se guardó.</b><p>${esc(r.mensaje)}</p></div>`;
+  }
+}
+
+async function cargarOrdenes() {
+  try {
+    const r = await api('api/ordenes');
+    if (!r.ok) throw new Error(r.mensaje);
+    $('ordenes').innerHTML = r.ordenes.length
+      ? `<table><thead><tr><th>Folio</th><th>Camión</th><th>Sector</th><th>Camión de combustible</th><th>Emitida</th></tr></thead><tbody>${r.ordenes.map(o =>
+          `<tr><td><b>${esc(o.id_orden)}</b></td><td>${esc(o.alerta?.id_camion)}</td><td>${esc(o.sector?.nombre)}</td><td>${esc(o.carro?.nombre)}</td><td>${hora(o.emitida_en)}</td></tr>`).join('')}</tbody></table>`
+      : '<div class="tarjeta">Todavía no hay órdenes registradas. La primera que envíe aparecerá aquí.</div>';
+  } catch (e) {
+    $('ordenes').innerHTML = `<div class="tarjeta">No se pudo cargar la lista de órdenes. ${esc(e.message)}</div>`;
+  }
+}
+
+const nombre = (lista, k, id) => (lista.find(x => x[k] === id) || {}).nombre || id;
+const hora = iso => iso ? new Date(iso).toLocaleString('es-CL', { dateStyle:'short', timeStyle:'short' }) : '—';
+
+cargarOpciones();
+cargarOrdenes();
+</script>
+</body>
+</html>
