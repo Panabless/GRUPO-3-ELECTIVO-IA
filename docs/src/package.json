@@ -1,0 +1,7 @@
+{
+  "name": "flota-combustible-poc",
+  "private": true,
+  "type": "module",
+  "description": "PoC Equipo 3: asignar orden de reabastecimiento (HU-04) con validación en el servidor y registro en Supabase",
+  "engines": { "node": ">=18" }
+}

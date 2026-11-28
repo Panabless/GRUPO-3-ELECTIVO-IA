@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Órdenes de reabastecimiento · Equipo 3</title>
+<style>
+  /* Mismo sistema mínimo del prototipo: texto 24/16 px · acción #1D4ED8 · alerta #B42318 · espaciado 8 px */
+  :root { --accion:#1D4ED8; --accion-suave:#E8EEFC; --alerta:#B42318; --alerta-suave:#FDECEA; --ok:#067647; --ok-suave:#E7F6EC;
+          --tinta:#1F2937; --gris:#4B5563; --linea:#D1D5DB; --fondo:#F6F7F9; --blanco:#FFFFFF; --u:8px; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--fondo); color:var(--tinta); font:16px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif; }
+  button, select, input, textarea { font: inherit; }
+  .app { max-width: 760px; margin: 0 auto; padding: calc(var(--u)*2); }
+  .cab { display:flex; justify-content:space-between; align-items:center; gap:var(--u); flex-wrap:wrap; color:var(--gris); margin-bottom:calc(var(--u)*2); }
+  .quien { display:flex; gap:var(--u); align-items:center; flex-wrap:wrap; }
+  .rol { border:1px solid var(--gris); border-radius:999px; padding:0 var(--u); font-size:14px; }
+  h1 { font-size:24px; line-height:1.25; margin:0 0 calc(var(--u)*2); }
+  h2 { font-size:16px; text-transform:uppercase; letter-spacing:.04em; color:var(--gris); margin:calc(var(--u)*4) 0 var(--u); }
+  .tarjeta { background:var(--blanco); border:1px solid var(--linea); border-radius:12px; padding:calc(var(--u)*2); }
+  .campo { margin-bottom:calc(var(--u)*3); }
+  .campo label { display:block; font-weight:700; margin-bottom:var(--u); }
+  .campo select, .campo input, .campo textarea { width:100%; min-height:48px; padding:8px 12px; border:1.5px solid var(--gris); border-radius:var(--u); background:var(--blanco); color:var(--tinta); }
+  .campo textarea { min-height:96px; resize:vertical; }
+  .campo.con-error select, .campo.con-error input, .campo.con-error textarea { border:2px solid var(--alerta); }
+  .msg-error { color:var(--alerta); margin-top:var(--u); }
+  .ayuda { color:var(--gris); margin-top:var(--u); font-size:14px; }
+  .acciones { display:flex; gap:calc(var(--u)*2); flex-wrap:wrap; margin-top:calc(var(--u)*2); }
+  .btn { min-height:48px; padding:0 calc(var(--u)*3); border-radius:var(--u); border:2px solid var(--accion); background:var(--accion); color:#fff; font-weight:700; cursor:pointer; }
+  .btn.sec { background:var(--blanco); color:var(--accion); }
+  .btn.peligro { background:var(--blanco); color:var(--alerta); border-color:var(--alerta); }
+  .btn.chico { min-height:36px; padding:0 calc(var(--u)*2); font-size:14px; }
+  .btn:disabled { opacity:.6; cursor:progress; }
+  :focus-visible { outline:3px solid var(--accion); outline-offset:2px; }
+  .caja-error { border:2px solid var(--alerta); background:var(--alerta-suave); border-radius:12px; padding:calc(var(--u)*2); margin-bottom:calc(var(--u)*2); }
+  .caja-error b { color:var(--alerta); }
+  .caja-error p { margin:var(--u) 0 0; }
+  .caja-ok { border:2px solid var(--ok); background:var(--ok-suave); border-radius:12px; padding:calc(var(--u)*2); margin-bottom:calc(var(--u)*2); }
+  .caja-ok b { color:var(--ok); }
+  .caja-ok p { margin:var(--u) 0 0; }
+  .aviso-prueba { border:1.5px dashed var(--tinta); border-radius:var(--u); padding:var(--u) calc(var(--u)*2); margin-bottom:calc(var(--u)*2); }
+  .cargando { text-align:center; padding:calc(var(--u)*5); color:var(--gris); }
+  .girando { width:32px; height:32px; border:4px solid var(--linea); border-top-color:var(--accion); border-radius:50%; margin:0 auto var(--u); animation:g 1s linear infinite; }
+  @keyframes g { to { transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .girando { animation:none; } }
+  .vacio { text-align:center; padding:calc(var(--u)*4) calc(var(--u)*2); color:var(--gris); }
+  .vacio b { display:block; color:var(--tinta); margin-bottom:var(--u); }
+  .tabla { width:100%; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; background:var(--blanco); border:1px solid var(--linea); }
+  th, td { text-align:left; padding:var(--u) 12px; border-top:1px solid var(--linea); white-space:nowrap; }
+  th { color:var(--gris); border-top:0; font-size:14px; }
+  tr.anulada td { color:var(--gris); }
+  .estado { display:inline-block; border-radius:999px; padding:0 var(--u); font-size:14px; font-weight:700; border:1.5px solid; }
+  .e-emitida { color:var(--accion); } .e-en_proceso { color:#B54708; } .e-cerrada { color:var(--ok); } .e-anulada { color:var(--gris); text-decoration:line-through; }
+  dl { display:grid; grid-template-columns: max-content 1fr; gap:var(--u) calc(var(--u)*2); margin:0; }
+  dt { color:var(--gris); } dd { margin:0; font-weight:600; }
+  .pie { color:var(--gris); margin-top:calc(var(--u)*4); font-size:14px; }
+  a { color:var(--accion); }
+  .enlace { background:none; border:0; color:var(--accion); text-decoration:underline; cursor:pointer; padding:0; }
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="cab"><span>Monitor de combustible · Equipo 3</span><span class="quien" id="quien"></span></div>
+  <div id="aviso-prueba"></div>
+  <div id="vista"></div>
+  <p class="pie">Datos de ejemplo, inventados. Las demás pantallas del flujo siguen simuladas en el
+    <a href="https://grupo-3-electivo-ia-prototipo.vercel.app/">prototipo navegable</a>.</p>
+</main>
+
+<script>
+// Modo prueba (?prueba en la dirección): la pantalla no valida ni oculta botones. Sirve para comprobar
+// que el servidor rechaza los datos malos y las acciones que el rol no tiene permitidas.
+const MODO_PRUEBA = new URLSearchParams(location.search).has('prueba');
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const ESTADO = { emitida:'emitida', en_proceso:'en proceso', cerrada:'cerrada', anulada:'anulada', reasignada:'reasignada' };
+const ROL = { controlador:'Controlador de flota', operador:'Operador camión de combustible', supervisor:'Supervisor' };
+const CAMION_ESTADO = { critico:'crítico', sin_senal:'sin señal', normal:'normal', alerta:'alerta', en_proceso:'en proceso', abastecido:'abastecido' };
+const hora = iso => iso ? new Date(iso).toLocaleString('es-CL', { dateStyle:'short', timeStyle:'short' }) : '—';
+const chip = e => `<span class="estado e-${esc(e)}">${esc(ESTADO[e] || e)}</span>`;
+const cargando = txt => `<div class="tarjeta cargando"><div class="girando" aria-hidden="true"></div>${txt}</div>`;
+const cajaError = (titulo, msg, boton) => `<div class="caja-error" role="alert"><b>${esc(titulo)}</b><p>${esc(msg)}</p>${boton || ''}</div>`;
+
+if (MODO_PRUEBA) $('aviso-prueba').innerHTML = '<div class="aviso-prueba"><b>Modo prueba:</b> la pantalla no revisa los campos ni oculta botones. Lo que no corresponda lo rechaza el servidor y no se guarda.</div>';
+
+// ---------------------------------------------------------------- sesión
+// El token vive solo mientras la pestaña está abierta (sessionStorage). Nunca se guarda una clave de Supabase aquí.
+let SESION = JSON.parse(sessionStorage.getItem('sesion') || 'null');
+let OPC = null, enviando = false;
+function guardarSesion(s) { SESION = s; s ? sessionStorage.setItem('sesion', JSON.stringify(s)) : sessionStorage.removeItem('sesion'); }
+
+async function api(ruta, opciones = {}) {
+  const headers = { 'Content-Type':'application/json', ...(SESION ? { Authorization: 'Bearer ' + SESION.token } : {}) };
+  let r;
+  try { r = await fetch(ruta, { ...opciones, headers }); }
+  catch { return { status:0, ok:false, mensaje:'No hay conexión con el servidor. Lo que escribió sigue en pantalla: revise su internet y reintente.' }; }
+  const datos = await r.json().catch(() => ({ ok:false, mensaje:'La respuesta del servidor no se pudo leer. Reintente.' }));
+  if (r.status === 401 && SESION) { guardarSesion(null); OPC = null; mostrarLogin(datos.mensaje || 'Su sesión expiró. Vuelva a iniciar sesión.'); throw new Error('sin sesión'); }
+  return { status: r.status, ...datos };
+}
+
+function pintarQuien() {
+  $('quien').innerHTML = SESION
+    ? `<span>${esc(SESION.usuario.nombre)}</span><span class="rol">${esc(ROL[SESION.usuario.rol] || SESION.usuario.rol)}</span><button class="enlace" id="salir" type="button">Cerrar sesión</button>`
+    : '';
+  if (SESION) $('salir').onclick = () => { guardarSesion(null); OPC = null; location.hash = ''; mostrarLogin('Cerró su sesión.'); };
+}
+
+// ---------------------------------------------------------------- inicio de sesión
+function mostrarLogin(aviso, valores = {}, errores = {}) {
+  pintarQuien();
+  const campo = (id, etiqueta, tipo, auto) => `<div class="campo ${errores[id] ? 'con-error' : ''}">
+    <label for="${id}">${etiqueta}</label>
+    <input id="${id}" type="${tipo}" autocomplete="${auto}" value="${esc(valores[id] || '')}" ${errores[id] ? 'aria-invalid="true"' : ''} aria-describedby="e-${id}">
+    ${errores[id] ? `<div class="msg-error" id="e-${id}">⚠ ${esc(errores[id])}</div>` : ''}</div>`;
+  $('vista').innerHTML = `<h1>Iniciar sesión</h1>
+    ${aviso ? `<div class="caja-error" role="alert"><b>${esc(aviso)}</b></div>` : ''}
+    <form class="tarjeta" id="f-login" novalidate>
+      ${campo('correo', 'Correo', 'email', 'username')}
+      ${campo('clave', 'Contraseña', 'password', 'current-password')}
+      <div class="acciones"><button class="btn" id="b-login" type="submit" ${enviando ? 'disabled' : ''}>${enviando ? 'Entrando…' : 'Entrar'}</button></div>
+      <p class="ayuda">Solo personas con cuenta asignada por el equipo. Las cuentas de prueba se entregan por correo a la profesora.</p>
+    </form>`;
+  $('f-login').onsubmit = entrar;
+  const malo = document.querySelector('[aria-invalid="true"]'); if (malo) malo.focus();
+}
+
+async function entrar(ev) {
+  ev.preventDefault();
+  if (enviando) return;
+  const v = { correo: $('correo').value.trim(), clave: $('clave').value };
+  if (!MODO_PRUEBA) {
+    const errores = {};
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.correo)) errores.correo = 'Escriba su correo, por ejemplo nombre@ejemplo.cl.';
+    if (!v.clave) errores.clave = 'Escriba su contraseña.';
+    if (Object.keys(errores).length) return mostrarLogin('', v, errores);
+  }
+  enviando = true; mostrarLogin('', v);
+  const r = await api('api/login', { method:'POST', body: JSON.stringify(v) });
+  enviando = false;
+  if (!r.ok) return mostrarLogin(r.mensaje, { correo: v.correo }, r.errores || {});
+  guardarSesion({ token: r.token, usuario: r.usuario });
+  router();
+}
+
+// ---------------------------------------------------------------- rutas
+// #ordenes (listado) · #orden/ORD-001 (detalle). Sin sesión, cualquier ruta muestra el inicio de sesión.
+async function router() {
+  if (!SESION) return mostrarLogin(location.hash.length > 1 ? 'Inicie sesión para ver esta página.' : '');
+  pintarQuien();
+  const m = location.hash.match(/^#orden\/(.+)$/);
+  try { m ? await verDetalle(decodeURIComponent(m[1])) : await verListado(); } catch (e) { /* sesión vencida: ya se mostró el inicio */ }
+}
+window.addEventListener('hashchange', router);
+
+// ---------------------------------------------------------------- listado (consultar) + crear
+async function verListado(mensajeArriba = '') {
+  const rol = SESION.usuario.rol;
+  const puedeCrear = rol === 'controlador' || MODO_PRUEBA;
+  $('vista').innerHTML = `<h1>Órdenes de reabastecimiento</h1>
+    <div id="resultado" aria-live="polite">${mensajeArriba}</div>
+    ${puedeCrear ? `<h2>Asignar orden (HU-04)</h2><div id="formulario">${cargando('Cargando datos de la flota…')}</div>` : ''}
+    <h2>${rol === 'operador' ? 'Órdenes de mi camión de combustible' : 'Todas las órdenes'}</h2>
+    <div id="ordenes" aria-live="polite">${cargando('Cargando órdenes…')}</div>`;
+  if (puedeCrear) cargarOpciones();
+  cargarOrdenes();
+}
+
+async function cargarOpciones() {
+  const r = await api('api/opciones');
+  if (!$('formulario')) return;
+  if (!r.ok) {
+    $('formulario').innerHTML = cajaError('No se pudieron cargar los datos de la flota.', r.mensaje, '<button class="btn chico" type="button" id="re-opc">Reintentar</button>');
+    $('re-opc').onclick = () => { $('formulario').innerHTML = cargando('Cargando datos de la flota…'); cargarOpciones(); };
+    return;
+  }
+  OPC = r; pintarFormulario({}, {});
+}
+
+function pintarFormulario(valores, errores) {
+  const opt = (lista, val, txt, sel, ph, deshabilitar) => `<option value="">${ph}</option>` + lista.map(x =>
+    `<option value="${esc(x[val])}" ${sel === x[val] ? 'selected' : ''} ${deshabilitar && deshabilitar(x) ? 'disabled' : ''}>${esc(txt(x))}</option>`).join('');
+  const campo = (id, etiqueta, opciones, ayuda) => `<div class="campo ${errores[id] ? 'con-error' : ''}">
+      <label for="${id}">${etiqueta} *</label><select id="${id}" ${errores[id] ? 'aria-invalid="true"' : ''} aria-describedby="e-${id}">${opciones}</select>
+      ${errores[id] ? `<div class="msg-error" id="e-${id}">⚠ ${esc(errores[id])}</div>` : (ayuda ? `<div class="ayuda" id="e-${id}">${ayuda}</div>` : '')}</div>`;
+  $('formulario').innerHTML = `<form class="tarjeta" id="form" novalidate>
+    ${campo('id_camion', 'Camión que necesita combustible', opt(OPC.camiones, 'id_camion', c => `${c.id_camion} · ${c.nivel_combustible} % · ${CAMION_ESTADO[c.estado] || c.estado}`, valores.id_camion, 'Elegir camión…'))}
+    ${campo('id_sector', 'Sector de encuentro', opt(OPC.sectores, 'id_sector', s => s.nombre, valores.id_sector, 'Elegir sector…'))}
+    ${campo('id_carro', 'Camión de combustible y operador', opt(OPC.carros, 'id_carro', k => k.estado === 'disponible' ? `${k.nombre} · ${k.usuario?.nombre || ''}` : `${k.nombre} · fuera de servicio`, valores.id_carro, 'Elegir camión de combustible…', MODO_PRUEBA ? null : k => k.estado !== 'disponible'), 'Solo se pueden elegir los que están disponibles.')}
+    <div class="ayuda">* Obligatorio.</div>
+    <div class="acciones"><button class="btn" type="submit" id="enviar" ${enviando ? 'disabled' : ''}>${enviando ? 'Registrando orden…' : 'Enviar orden'}</button></div>
+  </form>`;
+  $('form').onsubmit = enviarOrden;
+}
+
+async function enviarOrden(ev) {
+  ev.preventDefault();
+  if (enviando) return;                      // doble clic: la pantalla ignora el segundo
+  const v = { id_camion: $('id_camion').value, id_sector: $('id_sector').value, id_carro: $('id_carro').value };
+  $('resultado').innerHTML = '';
+  if (!MODO_PRUEBA) {                        // capa 1: el navegador avisa antes de enviar
+    const errores = {};
+    for (const k of ['id_camion', 'id_sector', 'id_carro']) if (!v[k]) errores[k] = OPC.mensajes[k];
+    if (Object.keys(errores).length) { pintarFormulario(v, errores); document.querySelector('[aria-invalid="true"]').focus(); return; }
+  }
+  enviando = true; pintarFormulario(v, {});
+  const r = await api('api/ordenes', { method:'POST', body: JSON.stringify(v) });   // capa 2: el servidor decide
+  enviando = false;
+  if (r.ok) {
+    const o = r.orden;
+    $('resultado').innerHTML = `<div class="caja-ok" role="status"><b>✓ Orden ${esc(o.id_orden)} registrada</b><p>${esc(o.id_camion)} · emitida ${hora(o.emitida_en)}. Ya la ve el operador del camión de combustible.</p></div>`;
+    pintarFormulario({}, {});
+    cargarOrdenes();
+  } else {
+    pintarFormulario(v, r.errores || {});    // nunca se borra lo que la persona eligió
+    $('resultado').innerHTML = cajaError(r.status === 0 ? 'Sin conexión: la orden no se guardó.' : r.status >= 500 ? 'Problema del sistema: la orden no se guardó.' : 'La orden no se guardó.', r.mensaje);
+  }
+}
+
+async function cargarOrdenes() {
+  const r = await api('api/ordenes');
+  if (!$('ordenes')) return;
+  if (!r.ok) {
+    $('ordenes').innerHTML = cajaError('No se pudo cargar la lista de órdenes.', r.mensaje, '<button class="btn chico" type="button" id="re-ord">Reintentar</button>');
+    $('re-ord').onclick = () => { $('ordenes').innerHTML = cargando('Cargando órdenes…'); cargarOrdenes(); };
+    return;
+  }
+  if (!r.ordenes.length) {
+    const rol = SESION.usuario.rol;
+    $('ordenes').innerHTML = `<div class="tarjeta vacio"><b>No hay órdenes para mostrar.</b>${
+      rol === 'operador' ? 'Todavía no le asignan órdenes a su camión de combustible. Cuando el controlador le asigne una, aparecerá aquí; recargue la página para revisar.'
+      : rol === 'controlador' ? 'Use el formulario de arriba para asignar la primera orden.'
+      : 'Cuando el controlador asigne órdenes, aparecerán aquí.'}</div>`;
+    return;
+  }
+  $('ordenes').innerHTML = `<div class="tabla"><table><thead><tr><th>Folio</th><th>Camión</th><th>Sector</th><th>Camión de combustible</th><th>Estado</th><th>Emitida</th></tr></thead><tbody>${
+    r.ordenes.map(o => `<tr class="${o.estado === 'anulada' ? 'anulada' : ''}"><td><a href="#orden/${esc(o.id_orden)}"><b>${esc(o.id_orden)}</b></a></td><td>${esc(o.alerta?.id_camion)}</td><td>${esc(o.sector?.nombre)}</td><td>${esc(o.carro?.nombre)}</td><td>${chip(o.estado)}</td><td>${hora(o.emitida_en)}</td></tr>`).join('')
+  }</tbody></table></div><p class="ayuda">Toque un folio para ver el detalle y sus acciones.</p>`;
+}
+
+// ---------------------------------------------------------------- detalle + actualizar + anular
+async function verDetalle(id, mensajeArriba = '', motivoPrevio = null, errorMotivo = '') {
+  $('vista').innerHTML = `<p><a href="#ordenes">← Volver al listado</a></p><h1>Orden ${esc(id)}</h1><div id="resultado" aria-live="polite">${mensajeArriba}</div><div id="detalle">${cargando('Cargando orden…')}</div>`;
+  const r = await api('api/ordenes?id=' + encodeURIComponent(id));
+  if (!r.ok) {
+    $('detalle').innerHTML = cajaError(r.status === 404 ? 'No encontramos esa orden.' : 'No se pudo cargar la orden.', r.mensaje,
+      r.status === 404 ? '<a class="btn chico" href="#ordenes" style="display:inline-flex;align-items:center;text-decoration:none;margin-top:8px">Volver al listado</a>' : '<button class="btn chico" type="button" id="re-det">Reintentar</button>');
+    if ($('re-det')) $('re-det').onclick = () => verDetalle(id);
+    return;
+  }
+  pintarDetalle(r.orden, motivoPrevio, errorMotivo);
+}
+
+function pintarDetalle(o, motivoPrevio, errorMotivo) {
+  const yo = SESION.usuario;
+  const puede = {   // solo decide qué botones se ven; el permiso real lo verifica el servidor
+    en_proceso: MODO_PRUEBA || (yo.rol === 'operador' && o.estado === 'emitida'),
+    cerrar: MODO_PRUEBA || (yo.rol === 'controlador' && o.estado === 'en_proceso'),
+    anular: MODO_PRUEBA || (yo.rol === 'controlador' && o.id_usuario === yo.id_usuario && ['emitida', 'en_proceso'].includes(o.estado))
+  };
+  const abrirMotivo = motivoPrevio !== null;
+  $('detalle').innerHTML = `<div class="tarjeta">
+      <dl>
+        <dt>Estado</dt><dd>${chip(o.estado)}</dd>
+        <dt>Camión</dt><dd>${esc(o.alerta?.id_camion)}</dd>
+        <dt>Sector de encuentro</dt><dd>${esc(o.sector?.nombre)}</dd>
+        <dt>Camión de combustible</dt><dd>${esc(o.carro?.nombre)}</dd>
+        <dt>Emitida por</dt><dd>${esc(o.usuario?.nombre)}</dd>
+        <dt>Emitida</dt><dd>${hora(o.emitida_en)}</dd>
+        ${o.cerrada_en ? `<dt>Cerrada</dt><dd>${hora(o.cerrada_en)}</dd>` : ''}
+        ${o.anulada_en ? `<dt>Anulada</dt><dd>${hora(o.anulada_en)}</dd><dt>Motivo</dt><dd>${esc(o.motivo_anulacion)}</dd>` : ''}
+      </dl>
+      ${abrirMotivo ? `<form id="f-anular" novalidate style="margin-top:16px">
+          <div class="campo ${errorMotivo ? 'con-error' : ''}"><label for="motivo">Motivo de la anulación *</label>
+          <textarea id="motivo" ${MODO_PRUEBA ? '' : 'maxlength="200"'} ${errorMotivo ? 'aria-invalid="true"' : ''} aria-describedby="e-motivo">${esc(motivoPrevio)}</textarea>
+          ${errorMotivo ? `<div class="msg-error" id="e-motivo">⚠ ${esc(errorMotivo)}</div>` : '<div class="ayuda" id="e-motivo">Entre 5 y 200 caracteres. La orden no se borra: queda anulada con este motivo.</div>'}</div>
+          <div class="acciones"><button class="btn peligro" type="submit" id="b-anular">${enviando ? 'Anulando…' : 'Confirmar anulación'}</button><button class="btn sec" type="button" id="b-cancelar">Cancelar</button></div>
+        </form>`
+      : `<div class="acciones">
+          ${puede.en_proceso ? '<button class="btn" type="button" data-accion="en_proceso">Marcar en proceso</button>' : ''}
+          ${puede.cerrar ? '<button class="btn" type="button" data-accion="cerrar">Confirmar cierre</button>' : ''}
+          ${puede.anular ? '<button class="btn peligro" type="button" id="b-abrir-anular">Anular orden</button>' : ''}
+          ${!puede.en_proceso && !puede.cerrar && !puede.anular ? '<span class="ayuda">No hay acciones disponibles para su rol en este estado.</span>' : ''}
+        </div>`}
+    </div>`;
+  document.querySelectorAll('[data-accion]').forEach(b => b.onclick = () => accionar(o, b.dataset.accion));
+  if ($('b-abrir-anular')) $('b-abrir-anular').onclick = () => pintarDetalle(o, '', '');
+  if ($('b-cancelar')) $('b-cancelar').onclick = () => pintarDetalle(o, null, '');
+  if ($('f-anular')) {
+    $('f-anular').onsubmit = ev => { ev.preventDefault(); accionar(o, 'anular', $('motivo').value); };
+    $('motivo').focus();
+  }
+}
+
+async function accionar(o, accion, motivo) {
+  if (enviando) return;
+  if (accion === 'anular' && !MODO_PRUEBA) {
+    const m = motivo.trim();
+    if (m.length < 5 || m.length > 200) return pintarDetalle(o, motivo, OPC?.mensajes?.motivo || 'Escriba el motivo de la anulación (entre 5 y 200 caracteres).');
+  }
+  enviando = true;
+  document.querySelectorAll('#detalle button').forEach(b => b.disabled = true);
+  $('resultado').innerHTML = cargando('Guardando…');
+  const r = await api('api/ordenes?id=' + encodeURIComponent(o.id_orden), { method:'PATCH', body: JSON.stringify({ accion, motivo }) });
+  enviando = false;
+  if (r.ok) {
+    const txt = { en_proceso:'quedó en proceso', cerrar:'quedó cerrada', anular:'quedó anulada (sigue guardada con su motivo)' }[accion];
+    return verDetalle(o.id_orden, `<div class="caja-ok" role="status"><b>✓ La orden ${esc(o.id_orden)} ${txt}.</b></div>`);
+  }
+  const titulo = r.status === 0 ? 'Sin conexión: no se guardó el cambio.' : r.status >= 500 ? 'Problema del sistema: no se guardó el cambio.' : 'No se guardó el cambio.';
+  $('resultado').innerHTML = cajaError(titulo, r.mensaje);
+  pintarDetalle(o, accion === 'anular' ? motivo : null, r.errores?.motivo || '');   // se conserva el motivo escrito
+}
+
+router();
+</script>
+</body>
+</html>
